@@ -1,8 +1,10 @@
+mod bundle;
 mod cli;
 
 use anyhow::{Result, bail};
 use clap::Parser;
 
+use bundle::Bundle;
 use cli::{Cli, Command};
 
 fn main() {
@@ -15,7 +17,10 @@ fn main() {
 
 fn run(cli: Cli) -> Result<()> {
     match cli.command {
-        Command::Create { .. } => bail!("create: not implemented yet"),
+        Command::Create { bundle, .. } => {
+            let bundle = Bundle::load(&bundle)?;
+            bail!("create: not implemented yet (bundle `{}`)", bundle.path.display())
+        }
         Command::Start { .. } => bail!("start: not implemented yet"),
         Command::Run { .. } => bail!("run: not implemented yet"),
         Command::State { .. } => bail!("state: not implemented yet"),
